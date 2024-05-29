@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'your_docker_image_name'
+        DOCKER_IMAGE = 'Distinction'
     }
 
     stages {
