@@ -3,11 +3,15 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'your_docker_image_name'
-        SONARQUBE_URL = 'http://your_sonarqube_server'
-        SONARQUBE_CREDENTIALS = 'sonarqube_credentials_id'
     }
 
     stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/MuzamilRafiq2838/6.2HD.git'
+            }
+        }
+        
         stage('Build') {
             steps {
                 script {
@@ -30,10 +34,8 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarQube') {
-                        sh 'echo "Running SonarQube analysis..."'
-                        sh 'docker run --rm $DOCKER_IMAGE sonar-scanner -Dsonar.projectKey=my_project -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=$SONARQUBE_CREDENTIALS'
-                    }
+                    sh 'echo "Running ESLint analysis..."'
+                    sh 'docker run --rm $DOCKER_IMAGE npm run lint'
                 }
             }
         }
