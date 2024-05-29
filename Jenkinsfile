@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/MuzamilRafiq2838/6.2HD.git'
+                git branch: 'Deakin', url: 'https://github.com/MuzamilRafiq2838/6.2HD.git'
             }
         }
         
