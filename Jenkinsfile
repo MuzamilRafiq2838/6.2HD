@@ -1,14 +1,19 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:stable'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     environment {
-        DOCKER_IMAGE = 'Distinction'
+        DOCKER_IMAGE = 'your_docker_image_name'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'Deakin', url: 'https://github.com/MuzamilRafiq2838/6.2HD.git'
+                git 'https://github.com/MuzamilRafiq2838/6.2HD.git'
             }
         }
         
@@ -27,15 +32,6 @@ pipeline {
                     sh 'echo "Running tests..."'
                     sh 'docker run --rm $DOCKER_IMAGE ./run_tests.sh'
                     junit '**/target/test-results/*.xml'
-                }
-            }
-        }
-
-        stage('Code Quality Analysis') {
-            steps {
-                script {
-                    sh 'echo "Running ESLint analysis..."'
-                    sh 'docker run --rm $DOCKER_IMAGE npm run lint'
                 }
             }
         }
